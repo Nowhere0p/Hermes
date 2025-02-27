@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -24,13 +25,24 @@ public class UserDetails : User
     public Role Role { get; set; } = Role.USER;
 
     [BsonElement("gender")]
-    public Gender? Gender { get; set; }
+    public Gender Gender { get; set; }
+
+    [BsonElement("country")]
+    public Country Country { get; set; }
 
     public UserDetails()
     {
         Id = Guid.NewGuid().ToString();
         base.PartitionKey = DateTime.UtcNow.ToString("MM-yyyy");
+        CreatedAt=DateTime.UtcNow;
     }
+}
+
+public class LoginInteraction {
+    [JsonPropertyName("emailOrUsername")]
+    public required string EmailOrUsername { get; set; }
+    [JsonPropertyName("password")]
+    public required string Password { get; set; }
 }
 
 public enum Role
@@ -51,4 +63,13 @@ public enum Gender
 public enum Country {
     INDIA=100,
     PAKISTAN=200,
+}
+
+public static class CustomClaimTypes {
+    public const string UserId = "userId";
+}
+
+public class AuthResponse {
+    [JsonPropertyName("jwt")]
+    public string? Jwt {get; set;}
 }
