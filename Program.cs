@@ -1,3 +1,4 @@
+using Hermes.Common;
 using Hermes.DbCore;
 using Hermes.Middleware;
 using Hermes.src.Models;
@@ -26,6 +27,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IConfigManager, HermesConfigManager>();
 builder.Services.AddSingleton<IAuthClient, AuthClient>();
 var userDbService= InitializeMongoClientAsync<UserDetails>(builder.Configuration.GetSection("UserDetailsDb")).GetAwaiter().GetResult();
 builder.Services.AddSingleton<IMongoDbService<UserDetails>>(userDbService);
