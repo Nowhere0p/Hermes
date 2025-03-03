@@ -76,6 +76,7 @@ public class AuthClient(IMongoDbService<UserDetails> mongoDbService, ILogger<Aut
     }
 
     private async Task<String> GeneratePublicUsername(RegistrationInteraction registrationInteraction) {
+        //Todo : Change Logic
         var client = new RestClient("https://usernameapiv1.vercel.app");
         var request = new RestRequest("api/random-usernames", Method.Get);
         var response = await client.ExecuteAsync(request);
