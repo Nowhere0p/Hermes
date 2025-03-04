@@ -1,8 +1,10 @@
 using Hermes.Common;
 using Hermes.DbCore;
 using Hermes.Middleware;
+using Hermes.Services.EmailService;
 using Hermes.src.Models;
 using Hermes.src.Services;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
@@ -21,7 +23,7 @@ builder.Services.AddCors(options =>
         }
     );
 });
-
+var configs= ResponseBuilder.DeserializeFromFile<HermesConfiguration>("HermesConfigs/hermesConfiguration.json");
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
@@ -29,8 +31,31 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IConfigManager, HermesConfigManager>();
 builder.Services.AddSingleton<IAuthClient, AuthClient>();
+builder.Services.AddSingleton<IEmailHelper, EmailHelper>();
+builder.Services.AddMemoryCache();
+
 var userDbService= InitializeMongoClientAsync<UserDetails>(builder.Configuration.GetSection("UserDetailsDb")).GetAwaiter().GetResult();
 builder.Services.AddSingleton<IMongoDbService<UserDetails>>(userDbService);
+var otpDbService=InitializeMongoClientAsync<OtpVerification>(builder.Configuration.GetSection("OtpDb")).GetAwaiter().GetResult();
+builder.Services.AddSingleton<IMongoDbService<OtpVerification>>(otpDbService);
+
+//email service
+
+builder.Services.AddSingleton<ISmtpClient>(provider =>
+{
+    var smtpClient = new SmtpClient();
+    smtpClient.Connect(
+        configs.EmailConfigs.Host,
+        configs.EmailConfigs.Port,
+        MailKit.Security.SecureSocketOptions.StartTls // Use appropriate security options
+    );
+    smtpClient.Authenticate(
+        configs.EmailConfigs.Username,
+        configs.EmailConfigs.Password
+    );
+
+    return smtpClient;
+});
 //Add JWT authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

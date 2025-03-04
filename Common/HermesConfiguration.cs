@@ -5,17 +5,21 @@ namespace Hermes.Common;
 public class HermesConfiguration {
     [JsonPropertyName("emailConfigs")]
     public EmailConfigs? EmailConfigs { get; set; }
+    [JsonPropertyName("fromMailAddresses")]
+    public List<string> FromMailAddresses { get; set; }
 }
 
 public class EmailConfigs {
     [JsonPropertyName("host")]
-    public string? Host { get; set; }
+    public string Host { get; set; }
     [JsonPropertyName("port")]
-    public int? Port { get; set; }
+    public int Port { get; set; }
     [JsonPropertyName("username")]
-    public string? Username { get; set; }
+    public string Username { get; set; }
+
     [JsonPropertyName("password")]
-    public string? Password { get; set; }
+    public string Password { get; set; }
+    
     [JsonPropertyName("useSSL")]
-    public bool? UseSSL { get; set; }
+    public bool UseSSL { get; set; }
 }

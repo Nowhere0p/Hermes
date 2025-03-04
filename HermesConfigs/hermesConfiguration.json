@@ -2,8 +2,11 @@
     "emailConfigs": {
         "host": "smtp.gmail.com",
         "port": 587,
-        "username": "",
-        "password": "",
+        "username": "rajatchaudhary6399@gmail.com",
+        "password": "mzwaglclknaflxwt",
         "useSSL": true
-    }
+    },
+    "fromMailAddresses": [
+        "rajatchaudhary6399@gmail.com"
+    ]
 }

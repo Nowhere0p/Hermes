@@ -13,7 +13,7 @@ public class HermesConfigManager(IMemoryCache cache) : IConfigManager
         return await _cache.GetOrCreateAsync(CACHE_CONFIG_NAME, async entry =>
         {
             entry.SlidingExpiration = TimeSpan.FromMinutes(CACHE_RETENTION_IN_MINUTES);
-            return DummyResponseBuilder.DeserializeFromFile<HermesConfiguration>("HermesConfigs/hermesConfiguration.json");
+            return ResponseBuilder.DeserializeFromFile<HermesConfiguration>("HermesConfigs/hermesConfiguration.json");
         });
         
     }
