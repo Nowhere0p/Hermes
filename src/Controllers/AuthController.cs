@@ -47,6 +47,19 @@ public class AuthController(IAuthClient authClient, ILogger<AuthController> logg
         return Ok("Welcome to Hermes!");
     }
 
+    [HttpPost("verify-otp")]
+    public async Task<IActionResult> VerifyOtp([FromBody] OtpVerificationInteraction otpVerificationInteraction) {
+        try {
+            await _authClient.VerifyAndRegisterAsync(otpVerificationInteraction);
+            return Ok("OTP verified successfully");
+        } catch (HermesException e) {
+            _logger.LogError($"Error verifying OTP : {e.Message}");
+            return BadRequest(e.Message);
+        } catch (Exception e) {
+            _logger.LogError(e, "Error verifying OTP");
+            return StatusCode(500, "Error verifying OTP");
+        }
+    }
     // [HttpPost("forgot-password")]
     // public async Task<IActionResult> ForgotPassword([FromBody] User user) {
     //     // Forgot password

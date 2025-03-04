@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace Hermes.Common;
 
-public static class DummyResponseBuilder {
+public static class ResponseBuilder {
     public static T DeserializeFromFile<T>(string path) {
         try {
             var json = File.ReadAllText(path);
