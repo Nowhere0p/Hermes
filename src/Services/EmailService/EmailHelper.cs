@@ -22,10 +22,13 @@ public class EmailHelper(
         {
             var mail = new MimeMessage();
             var fromMailAddresses = (await _configs.GetConfigurationAsync()).FromMailAddresses;
-            mail.From.Add(new MailboxAddress("Hermes","rajatchaudhary6399@gmail.com"));
-            foreach (var reciever in email.ToEmails)
+            foreach(var sender in fromMailAddresses)
             {
-                mail.To.Add(MailboxAddress.Parse(reciever));
+                mail.From.Add(MailboxAddress.Parse(sender));
+            }
+            foreach (var receiver in email.ToEmails)
+            {
+                mail.To.Add(MailboxAddress.Parse(receiver));
             }
             mail.Subject = email.Subject;
             mail.Body = new TextPart("plain") { Text = email.Body };

@@ -44,8 +44,8 @@ public class AuthClient(IMongoDbService<UserDetails> userDbService,IMongoDbServi
             _logger.LogInformation("OTP generated successfully");
             var email = new EmailModel {
                 ToEmails = new List<string> { registrationInteraction.Email },
-                Subject = "Hermes - Verify your Account",
-                Body = $"Your OTP is {otp.verificationCode}. It will expire in 5 minutes."
+                Subject = "Your OTP Code for Verification",
+                Body = $"\n Dear User,\n\nWe have received a request to verify your identity. To complete the process, please enter the following one-time password (OTP):\n\nYour OTP Code: {otp.verificationCode}\n\nIf you did not request this OTP, please ignore this message.\n\nThank you,\nTeam Hermes\n\n---\nThis is an automated message. Please do not reply to this email.\n"
             };
             await _emailHelper.SendEmailAsync(email);
             _logger.LogInformation("Email sent successfully");
