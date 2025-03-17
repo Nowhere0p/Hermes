@@ -29,6 +29,23 @@ public class UserDetails : User
 
     [BsonElement("country")]
     public Country Country { get; set; }
+    /// <summary>
+    /// communities joined by user
+    /// </summary>  
+    List<string> JoinedCommunities{get; set;}=[];
+
+    /// <summary>
+    /// communities created by user
+    /// </summary>
+    List<string> CommunitiesCreated{get; set;}=[];
+    
+    [BsonElement("adminAt")]
+    List<string> AdminAt{get; set;}=[];
+
+
+    /// <summary>
+    /// stores id of posts
+    /// </summary>
 
     public UserDetails()
     {
