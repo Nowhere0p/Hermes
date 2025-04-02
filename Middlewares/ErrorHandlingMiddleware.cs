@@ -2,7 +2,7 @@ using Hermes.Common;
 using System.Net;
 using System.Text.Json;
 
-namespace Hermes.Middleware
+namespace Hermes.Middlewares
 {
     public class ErrorHandlingMiddleware
     {

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Hermes.DbCore;
 
 using MongoDB.Bson;
@@ -46,12 +44,15 @@ namespace Hermes.src.Models
         [BsonElement("isApproved")]
         public bool IsApproved { get; set; }
 
+        [BsonElement("communityId")]
+        public string CommunityId { get; set; }
+
         public PostModel()
         {
             Id = Guid.NewGuid().ToString();
             PartitionKey = DateTime.UtcNow.ToString("MM-yyyy");
             CreatedAt = DateTime.UtcNow;
-            IsApproved = false;
+            IsApproved = true;
         }
 
         public object GetPartitionKey()

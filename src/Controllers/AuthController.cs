@@ -41,9 +41,11 @@ public class AuthController(IAuthClient authClient, ILogger<AuthController> logg
         }
     }
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "USER")]
+    // [AllowAnonymous]
     [HttpGet("welcome")]
     public async Task<IActionResult> Welcome() {
 
+        throw new HermesException(HermesException.BadRequest, "Unauthorized access");
         return Ok("Welcome to Hermes!");
     }
 

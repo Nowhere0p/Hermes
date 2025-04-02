@@ -1,6 +1,6 @@
 using Hermes.Common;
 using Hermes.DbCore;
-using Hermes.Middleware;
+using Hermes.Middlewares;
 using Hermes.Services.EmailService;
 using Hermes.src.Models;
 using Hermes.src.Services;
@@ -41,7 +41,7 @@ builder.Services.AddSingleton<IMongoDbService<OtpVerification>>(otpDbService);
 
 //email service
 
-builder.Services.AddSingleton<ISmtpClient>(provider =>
+builder.Services.AddScoped<ISmtpClient>(provider =>
 {
     var smtpClient = new SmtpClient();
     smtpClient.Connect(
